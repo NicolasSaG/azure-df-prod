@@ -1,0 +1,11 @@
+{
+	"name": "Get tables from SQL database",
+	"properties": {
+		"parameters": {
+			"tableList": {
+				"type": "array"
+			}
+		},
+		"annotations": []
+	}
+}
