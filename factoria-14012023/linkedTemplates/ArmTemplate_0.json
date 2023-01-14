@@ -333,7 +333,8 @@
 									"tableName": "default",
 									"dbSchema": "default"
 								}
-							}
+							},
+							"firstRowOnly": false
 						}
 					},
 					{
