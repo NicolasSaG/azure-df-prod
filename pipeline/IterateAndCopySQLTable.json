@@ -14,9 +14,16 @@
 					},
 					"activities": [
 						{
-							"name": "Copy data",
+							"name": "Ingest data",
 							"type": "Copy",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Data availavility Validation",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -101,6 +108,30 @@
 									}
 								}
 							]
+						},
+						{
+							"name": "Data availavility Validation",
+							"type": "Validation",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"dataset": {
+									"referenceName": "AzureSqlDatabaseDataset",
+									"type": "DatasetReference",
+									"parameters": {
+										"tableName": {
+											"value": "@item().TABLE_NAME",
+											"type": "Expression"
+										},
+										"dbSchema": {
+											"value": "@item().TABLE_SCHEMA",
+											"type": "Expression"
+										}
+									}
+								},
+								"timeout": "0.12:00:00",
+								"sleep": 10
+							}
 						}
 					]
 				}
