@@ -86,6 +86,10 @@
 									"referenceName": "dlgen2_raw_parquet",
 									"type": "DatasetReference",
 									"parameters": {
+										"containerName": {
+											"value": "@pipeline().parameters.raw_container",
+											"type": "Expression"
+										},
 										"directory": {
 											"value": "@item().TABLE_SCHEMA",
 											"type": "Expression"
@@ -105,6 +109,10 @@
 		"parameters": {
 			"tableList": {
 				"type": "array"
+			},
+			"raw_container": {
+				"type": "string",
+				"defaultValue": "raw"
 			}
 		},
 		"annotations": []
