@@ -27,9 +27,6 @@
 			],
 			"transformations": [
 				{
-					"name": "CastDate"
-				},
-				{
 					"name": "select1"
 				}
 			],
@@ -56,11 +53,7 @@
 				"     limit: 100,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> Customers",
-				"Customers cast(output(",
-				"          ModifiedDate as date 'dd/MM/yyyy'",
-				"     ),",
-				"     errors: true) ~> CastDate",
-				"CastDate select(mapColumn(",
+				"Customers select(mapColumn(",
 				"          CustomerID,",
 				"          FirstName,",
 				"          LastName,",
