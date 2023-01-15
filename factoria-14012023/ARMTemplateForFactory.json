@@ -266,6 +266,53 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ModifyCustomerWithDataFlow')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "test-flow",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "test-flow",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"Customers": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Coarse"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/test-flow')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabaseDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -298,6 +345,32 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CleansedCustomersDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Customer",
+						"folderPath": "SalesTL",
+						"fileSystem": "cleansed"
+					},
+					"compressionCodec": "none"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage')]"
 			]
 		},
 		{
@@ -656,7 +729,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "dlgen2_raw_parquet",
+								"referenceName": "CleansedCustomersDataset",
 								"type": "DatasetReference"
 							},
 							"name": "sink1",
@@ -722,59 +795,8 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/RawCustomersDataset')]",
-				"[concat(variables('factoryId'), '/datasets/dlgen2_raw_parquet')]",
+				"[concat(variables('factoryId'), '/datasets/CleansedCustomersDataset')]",
 				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ModifyCustomerWithDataFlow')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "test-flow",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "test-flow",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"Customers": {},
-									"sink1": {
-										"containerName": "cleansed",
-										"directory": "SalesLT",
-										"fileName": "Customer"
-									}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Coarse"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/test-flow')]"
 			]
 		}
 	]
