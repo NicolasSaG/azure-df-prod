@@ -17,14 +17,7 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "test-flow",
-						"type": "DataFlowReference",
-						"datasetParameters": {
-							"sink1": {
-								"containerName": "cleansed",
-								"directory": "SalesLT",
-								"fileName": "Customer"
-							}
-						}
+						"type": "DataFlowReference"
 					},
 					"compute": {
 						"coreCount": 8,
