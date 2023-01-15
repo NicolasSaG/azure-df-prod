@@ -1,5 +1,5 @@
 {
-	"name": "dataflow1",
+	"name": "join",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -10,31 +10,10 @@
 						"type": "DatasetReference"
 					},
 					"name": "Customers"
-				},
-				{
-					"dataset": {
-						"referenceName": "RawCustomerAddressDataset",
-						"type": "DatasetReference"
-					},
-					"name": "CustomerAddress"
-				},
-				{
-					"dataset": {
-						"referenceName": "RawAddressDataset",
-						"type": "DatasetReference"
-					},
-					"name": "Address"
 				}
 			],
 			"sinks": [],
-			"transformations": [
-				{
-					"name": "join"
-				},
-				{
-					"name": "join2"
-				}
-			],
+			"transformations": [],
 			"scriptLines": [
 				"source(output(",
 				"          CustomerID as integer,",
@@ -57,59 +36,7 @@
 				"     validateSchema: false,",
 				"     limit: 100,",
 				"     ignoreNoFilesFound: false,",
-				"     format: 'parquet') ~> Customers",
-				"source(output(",
-				"          CustomerID as integer,",
-				"          NameStyle as boolean,",
-				"          Title as string,",
-				"          FirstName as string,",
-				"          MiddleName as string,",
-				"          LastName as string,",
-				"          Suffix as string,",
-				"          CompanyName as string,",
-				"          SalesPerson as string,",
-				"          EmailAddress as string,",
-				"          Phone as string,",
-				"          PasswordHash as string,",
-				"          PasswordSalt as string,",
-				"          rowguid as string,",
-				"          ModifiedDate as timestamp",
-				"     ),",
-				"     allowSchemaDrift: false,",
-				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false,",
-				"     format: 'parquet') ~> CustomerAddress",
-				"source(output(",
-				"          CustomerID as integer,",
-				"          NameStyle as boolean,",
-				"          Title as string,",
-				"          FirstName as string,",
-				"          MiddleName as string,",
-				"          LastName as string,",
-				"          Suffix as string,",
-				"          CompanyName as string,",
-				"          SalesPerson as string,",
-				"          EmailAddress as string,",
-				"          Phone as string,",
-				"          PasswordHash as string,",
-				"          PasswordSalt as string,",
-				"          rowguid as string,",
-				"          ModifiedDate as timestamp",
-				"     ),",
-				"     allowSchemaDrift: false,",
-				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false,",
-				"     format: 'parquet') ~> Address",
-				"Customers, CustomerAddress join(Customers@CustomerID == CustomerAddress@CustomerID,",
-				"     joinType:'inner',",
-				"     matchType:'exact',",
-				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join",
-				"join, Address join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
-				"     joinType:'inner',",
-				"     matchType:'exact',",
-				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join2"
+				"     format: 'parquet') ~> Customers"
 			]
 		}
 	}
