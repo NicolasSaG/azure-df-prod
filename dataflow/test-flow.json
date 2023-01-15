@@ -68,7 +68,7 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
 				"select1 derive(ModifiedDate = toDate(toString(ModifiedDate, 'dd/MM/yyyy'), 'dd/MM/yyyyy')) ~> derivedColumn1",
-				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"derivedColumn1 sink(allowSchemaDrift: false,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
 				"     umask: 0022,",
