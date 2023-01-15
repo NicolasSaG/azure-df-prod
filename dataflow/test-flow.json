@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "dlgen2_raw_parquet",
+						"referenceName": "CleansedCustomersDataset",
 						"type": "DatasetReference"
 					},
 					"name": "sink1",
@@ -68,7 +68,7 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
 				"select1 derive(ModifiedDate = toDate(toString(ModifiedDate, 'dd/MM/yyyy'), 'dd/MM/yyyyy')) ~> derivedColumn1",
-				"derivedColumn1 sink(allowSchemaDrift: false,",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
 				"     umask: 0022,",
