@@ -1,0 +1,21 @@
+{
+	"name": "CleansedCustomersDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Customer",
+				"folderPath": "SalesTL",
+				"fileSystem": "cleansed"
+			},
+			"compressionCodec": "none"
+		},
+		"schema": []
+	}
+}
